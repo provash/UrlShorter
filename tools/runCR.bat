@@ -1,0 +1,1 @@
+start cmd.exe /k  java -jar jetty-runner-9.4.6.v20170531.jar urlshorter.war
