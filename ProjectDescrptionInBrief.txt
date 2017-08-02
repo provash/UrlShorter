@@ -1,0 +1,32 @@
+
+Brief Info about this Application :
+This is a web application. I have used maven artifact with jersey lib to build this web app. It can be run in any web container. 
+There is a one simple web page where user can provide long url and get shorter url. Currently I am using current application deployment location path to set root path of shorter url.
+I have used Rest web services to handle shorter url creation and redirect request.
+ 
+Quick Testing:
+I have placed utility file in /tools/runCR.* folder to run this web app using jetty server on 8080 port. User can download this folder and place updated war file to run in jetty.
+
+Shorter Key Generation :
+I have created one new numbering system based on 36 character(0-9 number and A-Z character) to create 6 character unique key. Every request will get possible next Unique key.
+Currently we can create maximum 36^6 numbers ofunique key. Application will reset current key to initial stage once it is reach to maximum number.
+On application load time in webcontainer initial key can be reset from external configuration file or last generated key from DB. Currently it is hard coded.
+
+Security : I have stored long url in base64 encoded format instead of plain text. We may use other high encryption/decryption (Like AES256) technique to store this information in db.
+
+Data Storage : 
+I have used Derby db in embeded mode. This is very lightweight and stable. It can be used as an embedded db and independent db with minimum modification. 
+I have created one Table URLINFO with 6 column shorterurl(primary key), longerurl, creationdate, expirydate, status, ownerid.
+This table will be recreated on every time application restart. We can change this behavior by external configuration file. 
+creationdate, expirydate, status, expirydate field can use for more advance functionality like shorter URL can expire after predefine date or it may  be deactivate for limited time. 
+These fields can also be used for data purging based on date range, owner criteria etc. 
+We can create one table for statistics with shorterurl as a foreign key and User profile table table with ownerid as userid. 
+
+Future Scope :
+1) We can extend this number system for more unique key.
+2) We may implement tolerance mechanism to track the key usage. 
+3) strong encryption for long url data
+4) Add user profile and authentication
+5) Create statistics data table
+6) generate report
+7) Admin UI to manage shorterUrlkey in database

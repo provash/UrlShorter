@@ -11,6 +11,7 @@ public class UrlInfo {
 	private RecordStatus status;
 	private Date creationDate;
 	private Date expDate;
+	private String ownerId;
 	
 	public String getShortUrl() {
 		return shortUrl;
@@ -42,6 +43,12 @@ public class UrlInfo {
 	}
 	public void setExpDate(Date expDate) {
 		this.expDate = expDate;
+	}
+	public String getOwnerId() {
+		return ownerId;
+	}
+	public void setOwnerId(String ownerId) {
+		this.ownerId = ownerId;
 	}
 	
 }

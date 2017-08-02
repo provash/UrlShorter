@@ -23,8 +23,8 @@ public class UniqueKeyGen {
 	private static final int KEY_LENGTH = 6;
 	private static final int NUM_BASE = 36;
 	private static final int MIN_VALUE_IN_CURRENT_NUMBER_SYS = 0;
-	private static final long MAX_VALUE_IN_CURRENT_NUMBER_SYS = ((NUM_BASE * 100000) + (NUM_BASE * 10000)
-			+ (NUM_BASE * 1000) + (NUM_BASE * 100) + (NUM_BASE * 10) + (NUM_BASE * 1));
+	private static final long MAX_VALUE_IN_CURRENT_NUMBER_SYS =(long) (((NUM_BASE-1) * Math.pow(NUM_BASE, 5)) + ((NUM_BASE-1) * Math.pow(NUM_BASE, 4))
+			+ ((NUM_BASE-1) * Math.pow(NUM_BASE, 3)) + ((NUM_BASE-1) * Math.pow(NUM_BASE, 2)) + ((NUM_BASE-1) * Math.pow(NUM_BASE, 1)) + ((NUM_BASE-1) * 1));
 
 	private static final Map<Character, Integer> KEY_LETTER_VALUE_MAP = new HashMap<>();
 	static {
@@ -162,12 +162,12 @@ public class UniqueKeyGen {
 	}
 
 	private static long getIntValue(char[] keyArray) {
-		int multiplier = 100000;
+		long multiplier =(long) Math.pow(NUM_BASE, 5);
 		long intValue = 0;
 		for (char keyLetter : keyArray) {
 			int keyLetterIntValue = KEY_LETTER_VALUE_MAP.get(keyLetter);
 			intValue += (keyLetterIntValue * multiplier);
-			multiplier = multiplier / 10;
+			multiplier = multiplier / NUM_BASE;
 		}
 		return intValue;
 	}

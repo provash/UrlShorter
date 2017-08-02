@@ -21,12 +21,13 @@ public class UrlShorterEmbededDbDao implements UrlShorterDao {
 	public static final String FETCH_ALL_URLINFO_DATA = "select * from URLINFO";
 	private static final String URL_SHORTER_DB_CONNECTION_STRING = "jdbc:derby:urlShorterDB;create=true;user=root;password=root";
 	private static final String DROP_URLINFO_TABLE_QUERY = "DROP TABLE URLINFO";
-	private static final String CREATE_URLINFO_TABLE_QUERY = "CREATE TABLE URLINFO (SHORTURL VARCHAR(6) NOT NULL PRIMARY KEY, LONGURL VARCHAR(250), CREATIONDATE DATE, EXPIRYDATE DATE, STATUS INT)";
-	private static final String INSERT_DATA_IN_URLINFO_TABLE_QUERY = "INSERT INTO URLINFO (SHORTURL, LONGURL, CREATIONDATE, EXPIRYDATE , STATUS ) VALUES (?, ?, ?, ?, ?)";
+	private static final String CREATE_URLINFO_TABLE_QUERY = "CREATE TABLE URLINFO (SHORTURL VARCHAR(6) NOT NULL PRIMARY KEY, LONGURL VARCHAR(250), CREATIONDATE DATE, EXPIRYDATE DATE, STATUS INT, OWNER VARCHAR(10))";
+	private static final String INSERT_DATA_IN_URLINFO_TABLE_QUERY = "INSERT INTO URLINFO (SHORTURL, LONGURL, CREATIONDATE, EXPIRYDATE , STATUS, OWNER ) VALUES (?, ?, ?, ?, ?, ?)";
 	private static final String FETCH_LONG_URL_QUERY = "SELECT LONGURL FROM URLINFO WHERE SHORTURL= ?";
 	private static final int ACTIVE_DATA = 1;
 	private static final int PASSIVE_DATA = 0;
 	private static final int DEFAULT_EXPIRY_DAYS = 365;
+	private static final String DEFAULT_USER = "anonymous";
 
 	public static void createDatabaseConnection() {
 		String driver = "org.apache.derby.jdbc.EmbeddedDriver";
@@ -104,6 +105,12 @@ public class UrlShorterEmbededDbDao implements UrlShorterDao {
 					stmt.setInt(5, ACTIVE_DATA);
 				else
 					stmt.setInt(5, info.getStatus().getIntStatus());
+				
+				if(info.getOwnerId() == null || info.getOwnerId().isEmpty()){
+					stmt.setString(6, DEFAULT_USER);
+				}else{
+					stmt.setString(6, info.getOwnerId());
+				}
 			} else{
 				return false;
 			}

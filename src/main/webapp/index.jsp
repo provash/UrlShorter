@@ -37,15 +37,14 @@
 	  }
 	}
 	 
-	request.open('POST', '/su/', true);
-	 
 	creatSuBtn.addEventListener('click', function() {
 	  this.disabled = true;
 	  var lUrl = lonUrlInput.value;
 	  
-	  if(lUrl != "")
+	  if(lUrl != ""){
+		  request.open('POST', '/su/', true);
 	  	  request.send(lUrl);
-	  else
+	  }else
 		  this.disabled = false;
 	});
 	

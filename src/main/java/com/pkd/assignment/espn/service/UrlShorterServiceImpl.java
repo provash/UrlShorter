@@ -27,10 +27,12 @@ public class UrlShorterServiceImpl implements UrlShorterService {
 
 		urlInfo.setShortUrl(shortUrlKey);
 		urlInfo.setLongUrl(encodedLongUrl);
-
+		final String rootPath = UrlShorterConfiguration.getShorterURLRootPath();
+		if(rootPath == null)
+			return null;
 		if (dao.insertShorterUrlInfo(urlInfo)) {
 			keyGenerator.setCurrentKey(shortUrlKey);
-			String shortUrl = UrlShorterConfiguration.getShorterURLRootPath() + shortUrlKey;
+			String shortUrl = rootPath+ shortUrlKey;
 			return shortUrl;
 		}
 		return null;
